@@ -50,8 +50,8 @@ public class Java8VectorDotProduct extends VectorDotProduct {
 
     @Override
     public double dotProduct() {
-        return Streams.zip(stream(x), stream(y), (acc, value) -> acc * value)
-                      .reduce(1.0, Double::sum);
+        return Streams.zip(stream(x), stream(y), (left, right) -> left * right)
+                      .reduce(0.0, Double::sum);
     }
 
     @Override

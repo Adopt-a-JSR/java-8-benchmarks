@@ -2,6 +2,7 @@ package org.adoptajsr.parallel.runners;
 
 import java.io.IOException;
 import static java.time.Clock.system;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -16,21 +17,23 @@ public abstract class VectorDotProduct {
         double[] x = randomArray(), y = randomArray();
         Arrays.asList(
                 new Java8VectorDotProduct(false),
-                new Java8VectorDotProduct(true),
+//                new Java8VectorDotProduct(true),
                 new ImperativeVectorDotProduct()
                 ).forEach(impl -> {
 
             impl.prepare(x, y);
             impl.dotProduct();
             System.out.println(impl.getName() + "are you ready?");
-            awaitInput();
+//            awaitInput();
+            List<Double> results = new ArrayList<>();
             for (int j = 0; j < 10; j++) {
                 long time = System.nanoTime();
                 for (int i = 0; i < 10; i++) {
-                    impl.dotProduct();
+                    results.add(impl.dotProduct());
                 }
                 System.out.println(System.nanoTime() - time);
             }
+            System.out.println(results);
         });
     }
     
