@@ -7,6 +7,10 @@ import org.junit.Test;
 
 public class Java8RecommenderTest {
     
+    public static void main(String[] args) {
+        new Java8RecommenderTest().example();
+    }
+    
     // products: 3 .. 10
     // users: 1,2
     @Test

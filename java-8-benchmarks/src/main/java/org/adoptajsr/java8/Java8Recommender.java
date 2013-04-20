@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.mapping;
 import static java.util.Collections.emptyList;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 import static java.util.stream.Streams.zip;
 
@@ -46,7 +47,7 @@ public class Java8Recommender extends Recommender {
         Map<Integer, List<Integer>> buysByUser =
                 purchases.getPurchases()
                          .stream()
-                         .collect(groupingBy(buy -> buy.getUserId(), productIds()));
+                         .collect(groupingBy(Purchase::getUserId, productIds()));
 
         // product id -> product id -> frequency purchased together
         Map<Integer, Map<Integer, Long>> productSimilarity =
@@ -59,7 +60,7 @@ public class Java8Recommender extends Recommender {
         // replace the tree maps by a sorted list of keys
         productsBySimilarity = productSimilarity.entrySet()
                                                 .stream()
-                                                .collect(toMap(e -> e.getKey(),
+                                                .collect(toMap(Entry::getKey,
                                                                e -> keys(e.getValue())));
     }
 
