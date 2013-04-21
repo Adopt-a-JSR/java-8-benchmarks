@@ -16,8 +16,8 @@ public class Java8RecommenderTest {
     @Test
     public void example() {
         Purchases purchases = new Purchases();
-        buy(purchases, 3, 10, 1);
         buy(purchases, 4, 5, 2);
+        buy(purchases, 3, 10, 1);
         
         Java8Recommender recommender = new Java8Recommender();
         recommender.inject(purchases);
@@ -28,7 +28,7 @@ public class Java8RecommenderTest {
     }
 
     private void buy(Purchases purchases, int firstProduct, int lastProduct, int user) {
-        for (int i = firstProduct; i < lastProduct; i++) {
+        for (int i = firstProduct; i <= lastProduct; i++) {
             purchases.addPurchase(new Purchase(user, i));
         }
     }

@@ -43,8 +43,8 @@ public abstract class Recommender {
                 if (line == null)
                     return coincidences;
                 
-                int userId = Integer.parseInt(line[0]);
-                int productId = Integer.parseInt(line[1]);
+                int userId = Integer.parseInt(line[0].trim());
+                int productId = Integer.parseInt(line[1].trim());
                 coincidences.addPurchase(new Purchase(userId, productId));
             }
         } catch (IOException ex) {

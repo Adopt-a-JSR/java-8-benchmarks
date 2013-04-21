@@ -21,6 +21,7 @@ import static java.util.stream.Collectors.mapping;
 import static java.util.Collections.emptyList;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+import java.util.stream.Stream;
 import static java.util.stream.Streams.zip;
 
 public class Java8Recommender extends Recommender {
@@ -33,11 +34,16 @@ public class Java8Recommender extends Recommender {
         this.purchases = coincidences;
     }
     
-    private class CoBuy {
+    private static class CoBuy {
         int x,y;
         CoBuy(int x, int y) {
             this.x = x;
             this.y = y;
+        }
+
+        @Override
+        public String toString() {
+            return "[" + x + "," + y + "]";
         }
     }
 
@@ -53,9 +59,9 @@ public class Java8Recommender extends Recommender {
         Map<Integer, Map<Integer, Long>> productSimilarity =
                 buysByUser.values()
                           .stream()
-                          .flatMap(buys -> zip(buys.stream(), buys.stream(), CoBuy::new))
+                          .flatMap(this::combinations)
                           .collect(groupingBy(coBuy -> coBuy.x,
-                                   groupingBy(coBuy -> coBuy.y, TreeMap::new, counting())));
+                                   groupingBy(coBuy -> coBuy.y, counting())));
 
         // replace the tree maps by a sorted list of keys
         productsBySimilarity = productSimilarity.entrySet()
@@ -78,6 +84,13 @@ public class Java8Recommender extends Recommender {
 
     private Collector<Purchase, List<Integer>> productIds() {
         return mapping(buy -> buy.getProductId(), toList());
+    }
+    
+    Stream<CoBuy> combinations(List<Integer> values) {
+        return values.stream()
+                     .flatMap(x -> values.stream()
+                         .filter(y -> x != y)
+                         .map(y -> new CoBuy(x, y)));
     }
 
 }
