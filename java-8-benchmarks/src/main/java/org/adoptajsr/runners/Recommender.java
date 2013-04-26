@@ -19,7 +19,7 @@ public abstract class Recommender {
         List<Integer> others = new ArrayList<>();
         Arrays.asList(new Java8Recommender()).forEach(recommender -> {
             recommender.inject(purchases);
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 10; i++) {
                 long time = System.currentTimeMillis();
                 recommender.preprocess();
                 for (int j = 0; j < maxProductId; j += 2) {
@@ -29,7 +29,9 @@ public abstract class Recommender {
                     if (random.nextDouble() < 0.01)
                         others.addAll(recommendations);
                 }
-                System.out.println(System.currentTimeMillis() - time);
+                long timeTaken = System.currentTimeMillis() - time;
+                System.out.println("TIME : " + timeTaken);
+                others.clear();
             }
         });
     }
