@@ -20,9 +20,7 @@ import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.mapping;
 import static java.util.Collections.emptyList;
 import java.util.Map.Entry;
-import java.util.TreeMap;
 import java.util.stream.Stream;
-import static java.util.stream.Streams.zip;
 
 public class Java8Recommender extends Recommender {
 
@@ -35,15 +33,15 @@ public class Java8Recommender extends Recommender {
     }
     
     private static class CoBuy {
-        int x,y;
+        int productId1,productId2;
         CoBuy(int x, int y) {
-            this.x = x;
-            this.y = y;
+            this.productId1 = x;
+            this.productId2 = y;
         }
 
         @Override
         public String toString() {
-            return "[" + x + "," + y + "]";
+            return "[" + productId1 + "," + productId2 + "]";
         }
     }
 
@@ -60,8 +58,8 @@ public class Java8Recommender extends Recommender {
                 buysByUser.values()
                           .stream()
                           .flatMap(this::combinations)
-                          .collect(groupingBy(coBuy -> coBuy.x,
-                                   groupingBy(coBuy -> coBuy.y, counting())));
+                          .collect(groupingBy(coBuy -> coBuy.productId1,
+                                   groupingBy(coBuy -> coBuy.productId2, counting())));
 
         // replace the tree maps by a sorted list of keys
         productsBySimilarity = productSimilarity.entrySet()
