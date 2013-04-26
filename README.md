@@ -18,7 +18,9 @@ Current Implementations
 * Purchase Recommendation system (a la Amazon)
  - needs imperative version
 * Auto-correlation
- - requires benchmark to be written
+ - requires benchmark harness to be written
+* Re-encode strings into different character sets
+ - requires benchmark harness to be written
 
 Ideas for future Benchmarks
 ---------------------------
@@ -27,6 +29,5 @@ Ideas for future Benchmarks
  - blurring
  - feature detection via sobel
 * Prolog Interpreter
-* Re-encode strings into different character sets
 * K-Means Clustering
 
