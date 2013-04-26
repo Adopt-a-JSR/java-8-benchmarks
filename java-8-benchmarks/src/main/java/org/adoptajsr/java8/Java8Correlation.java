@@ -5,7 +5,7 @@
 
 package org.adoptajsr.java8;
 
-import static java.util.Arrays.stream;
+import java.util.Arrays;
 import static java.util.stream.Streams.intRange;
 import static java.util.stream.Streams.zip;
 import org.adoptajsr.runners.Correlation;
@@ -19,11 +19,15 @@ public class Java8Correlation extends Correlation {
     public double[] crossCorrelate(double[] X, double[] Y) {
         int N = X.length;
         return intRange(0, N)
-              .mapToDouble(i -> zip(stream(X, 0, N - i).boxed(),
-                                    stream(Y, i, N).boxed(),
-                                    (x, y) -> x * y)
-                               .reduce(0D, Double::sum))
+              .mapToDouble(i -> correlateAtIndex(X, N, i, Y))
               .toArray();
+    }
+
+    private Double correlateAtIndex(double[] X, int N, int window, double[] Y) {
+        return zip(Arrays.stream(X, 0, N - window).boxed(),
+                   Arrays.stream(Y, window, N).boxed(),
+                          (x, y) -> x * y)
+              .reduce(0D, Double::sum);
     }
 
 }

@@ -11,12 +11,14 @@ How to run
 * `mvn package`
 * `./run-benchmarks`
 
-Current Benchmarks
+Current Implementations 
 ------------------
 
 * Dot Product of 10 million entity vector
 * Purchase Recommendation system (a la Amazon)
+ - needs imperative version
 * Auto-correlation
+ - requires benchmark to be written
 
 Ideas for future Benchmarks
 ---------------------------
