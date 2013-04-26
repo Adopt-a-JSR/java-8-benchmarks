@@ -45,7 +45,7 @@ public class CorrelationTest {
     }
 
     @Test
-    public void autoCorrelation3() {
+    public void autoCorrelation2() {
         double[] data = {2, 3, 1};
         // Does this make sense?
         double[] expected = {14, 9, 2};

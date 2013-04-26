@@ -8,7 +8,6 @@ package org.adoptajsr.old;
 import org.adoptajsr.runners.Correlation;
 
 /**
- *
  * @author richard
  */
 public class ImperativeCorrelation extends Correlation {
