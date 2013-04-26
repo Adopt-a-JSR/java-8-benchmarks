@@ -16,11 +16,11 @@ Current Benchmarks
 
 * Dot Product of 10 million entity vector
 * Purchase Recommendation system (a la Amazon)
+* Auto-correlation
 
 Ideas for future Benchmarks
 ---------------------------
 
-* Auto-correlation
 * Image Convolutions
  - blurring
  - feature detection via sobel
