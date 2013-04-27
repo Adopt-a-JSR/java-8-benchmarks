@@ -3,13 +3,13 @@
  * and open the template in the editor.
  */
 
-package org.adoptajsr.runners;
+package org.adoptajsr.benchmarks;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.function.IntFunction;
 import java.util.stream.Streams;
-import org.adoptajsr.java8.Java8Correlation;
-import org.adoptajsr.old.ImperativeCorrelation;
+import org.adoptajsr.java8.benchmarks.Correlations;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,39 +17,43 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 /**
- *
  * @author richard
  */
 @RunWith(value = Parameterized.class)
 public class CorrelationTest {
+    
+    private static final Correlations correlations = new Correlations();
+    
+    // fscking lack of type aliases
+    @FunctionalInterface
+    public static interface Correlator extends IntFunction<double[]> {}
 
     @Parameters
     public static Collection<Object[]> data() {
-      Object[][] data = new Object[][] { { new ImperativeCorrelation() },
-                                         { new Java8Correlation() },
+      Object[][] data = new Object[][] { { (Correlator) correlations::timeImperativeAutoCorrelation },
+                                         { (Correlator) correlations::timeLambdaAutoCorrelation },
       };
       return Arrays.asList(data);
     }
 
-    private final Correlation correlation;
+    private final Correlator correlator;
 
-    public CorrelationTest(Correlation correlation) {
-        this.correlation = correlation;
+    public CorrelationTest(Correlator correlation) {
+        this.correlator = correlation;
     }
 
     @Test
     public void autoCorrelation1() {
-        double[] data = sequence(1, 3);
+        correlations.setValues(sequence(1, 3));
         double[] expected = {3, 2, 1};
-        assertEquals(expected, correlation.autoCorrelate(data));
+        assertEquals(expected, correlator.apply(1));
     }
 
     @Test
     public void autoCorrelation2() {
-        double[] data = {2, 3, 1};
-        // Does this make sense?
+        correlations.setValues(new double[]{2, 3, 1});
         double[] expected = {14, 9, 2};
-        assertEquals(expected, correlation.autoCorrelate(data));
+        assertEquals(expected, correlator.apply(1));
     }
 
     private double[] sequence(int value, int size) {
