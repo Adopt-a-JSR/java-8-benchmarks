@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package org.adoptajsr.runners;
+package org.adoptajsr.java8;
 
 import java.util.ArrayList;
 import java.util.List;

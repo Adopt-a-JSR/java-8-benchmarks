@@ -1,7 +1,6 @@
 package org.adoptajsr.java8;
 
-import org.adoptajsr.runners.Purchases;
-import org.adoptajsr.runners.Purchases.Purchase;
+import org.adoptajsr.java8.Purchases.Purchase;
 import org.junit.Assert;
 import org.junit.Test;
 

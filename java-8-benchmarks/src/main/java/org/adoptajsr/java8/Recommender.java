@@ -1,4 +1,4 @@
-package org.adoptajsr.runners;
+package org.adoptajsr.java8;
 
 import au.com.bytecode.opencsv.CSVReader;
 import java.io.FileReader;
@@ -7,8 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import org.adoptajsr.java8.Java8Recommender;
-import org.adoptajsr.runners.Purchases.Purchase;
+import org.adoptajsr.java8.Purchases.Purchase;
 
 public abstract class Recommender {
     

@@ -21,9 +21,9 @@ import org.junit.runners.Parameterized.Parameters;
  */
 @RunWith(value = Parameterized.class)
 public class CorrelationTest {
-    
+
     private static final Correlations correlations = new Correlations();
-    
+
     // fscking lack of type aliases
     @FunctionalInterface
     public static interface Correlator extends IntFunction<double[]> {}

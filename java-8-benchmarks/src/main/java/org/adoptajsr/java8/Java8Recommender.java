@@ -9,9 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collector;
-import org.adoptajsr.runners.Purchases;
-import org.adoptajsr.runners.Recommender;
-import org.adoptajsr.runners.Purchases.Purchase;
+import org.adoptajsr.java8.Purchases.Purchase;
 
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.toList;
