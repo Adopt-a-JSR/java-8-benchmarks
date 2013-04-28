@@ -12,7 +12,7 @@ How to run
 * `./run-benchmarks`
 
 Current Implementations 
-------------------
+-----------------------
 
 * Dot Product of 10 million entity vector
 * Auto-correlation
@@ -26,6 +26,5 @@ Ideas for future Benchmarks
 * Image Convolutions
  - blurring
  - feature detection via sobel
-* Prolog Interpreter
 * K-Means Clustering
 
