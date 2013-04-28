@@ -15,12 +15,10 @@ Current Implementations
 ------------------
 
 * Dot Product of 10 million entity vector
+* Auto-correlation
+* Re-encode strings into different character sets
 * Purchase Recommendation system (a la Amazon)
  - needs imperative version
-* Auto-correlation
- - requires benchmark harness to be written
-* Re-encode strings into different character sets
- - requires benchmark harness to be written
 
 Ideas for future Benchmarks
 ---------------------------
