@@ -1,6 +1,10 @@
-package org.adoptajsr.java8;
+package org.adoptajsr.benchmarks;
 
-import org.adoptajsr.java8.Purchases.Purchase;
+import java.util.List;
+import java.util.Map;
+import org.adoptajsr.java8.benchmarks.Recommendations;
+import org.adoptajsr.java8.util.Purchases;
+import org.adoptajsr.java8.util.Purchases.Purchase;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -18,12 +22,12 @@ public class Java8RecommenderTest {
         buy(purchases, 4, 5, 2);
         buy(purchases, 3, 10, 1);
         
-        Java8Recommender recommender = new Java8Recommender();
-        recommender.inject(purchases);
-        recommender.preprocess();
+        Recommendations recommendations = new Recommendations();
+        recommendations.setPurchases(purchases);
+        Map<Integer, List<Integer>> results = recommendations.timeLambdaRecommendations(1);
         
-        Assert.assertTrue(recommender.alsoBought(4, 1).contains(5));
-        Assert.assertTrue(recommender.alsoBought(5, 1).contains(4));
+        Assert.assertTrue(recommendations.alsoBought(4, 1, results).contains(5));
+        Assert.assertTrue(recommendations.alsoBought(5, 1, results).contains(4));
     }
 
     private void buy(Purchases purchases, int firstProduct, int lastProduct, int user) {

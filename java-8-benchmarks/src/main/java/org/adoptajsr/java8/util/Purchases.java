@@ -3,8 +3,11 @@
  * and open the template in the editor.
  */
 
-package org.adoptajsr.java8;
+package org.adoptajsr.java8.util;
 
+import au.com.bytecode.opencsv.CSVReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +40,24 @@ public class Purchases {
     public Purchases() {
         maxProductId = Integer.MIN_VALUE;
         purchases = new ArrayList<>();
+    }
+
+    public static Purchases load() {
+        String file = Purchases.class.getResource("datafile").getFile();
+        Purchases coincidences = new Purchases();
+        try (CSVReader reader = new CSVReader(new FileReader(file))) {
+            while (true) {
+                String[] line = reader.readNext();
+                if (line == null)
+                    return coincidences;
+                
+                int userId = Integer.parseInt(line[0].trim());
+                int productId = Integer.parseInt(line[1].trim());
+                coincidences.addPurchase(new Purchase(userId, productId));
+            }
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
     
     public void addPurchase(Purchase purchase) {
