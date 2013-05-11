@@ -1,4 +1,4 @@
-package org.adoptajsr.benchmarks;
+package org.adoptajsr.java8.benchmarks;
 
 import java.util.List;
 import java.util.Map;

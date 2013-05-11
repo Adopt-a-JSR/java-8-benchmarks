@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package org.adoptajsr.benchmarks;
+package org.adoptajsr.java8.benchmarks;
 
 import java.util.Arrays;
 import java.util.Collection;
