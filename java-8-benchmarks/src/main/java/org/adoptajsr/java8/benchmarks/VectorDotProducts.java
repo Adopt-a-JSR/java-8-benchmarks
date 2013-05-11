@@ -4,7 +4,9 @@ import com.google.caliper.Runner;
 import com.google.caliper.SimpleBenchmark;
 import com.gs.collections.impl.list.mutable.primitive.DoubleArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.Streams;
 
@@ -18,13 +20,13 @@ public class VectorDotProducts extends SimpleBenchmark {
     
     double[] x,y;
     DoubleArrayList gsX, gsY;
+    List<Double> boxedX, boxedY;
 
     @Override
     protected void setUp() throws Exception {
         x = randomArray();
         y = randomArray();
-        gsX = DoubleArrayList.newListWith(x);
-        gsY = DoubleArrayList.newListWith(y);
+        setupDerivedData();
     }
     
     public static void main(String[] args) {    
@@ -44,24 +46,25 @@ public class VectorDotProducts extends SimpleBenchmark {
         double sum = 0;
         for (int j= 0; j < reps; j++) {
             sum = 0;
-            for (int i = 0; i < x.length; i++) {
+            for (int i = 0; i < SIZE; i++) {
                 sum += x[i] * y[i];
             }
         }
         return sum;
     }
-    
-    public double timeGSDotProduct(int reps) {
+
+    public double timeImperativeBoxedDotProduct(int reps) {
         double sum = 0;
         for (int j= 0; j < reps; j++) {
-            sum = gsX.asLazy().collect(Double::new)
-                    .zip(gsY.asLazy().collect(Double::new))
-                    .sumOfDouble(pair -> pair.getOne() * pair.getTwo());
+            sum = 0;
+            for (int i = 0; i < boxedX.size(); i++) {
+                sum += boxedX.get(i) * boxedY.get(i);
+            }
         }
         return sum;
     }
-    
-    public double timeGS2DotProduct(int reps) {
+
+    public double timeGSDotProduct(int reps) {
         double sum = 0;
         for (int j= 0; j < reps; j++) {
             sum = gsX.asLazy().collect(Double::new)
@@ -83,6 +86,20 @@ public class VectorDotProducts extends SimpleBenchmark {
     
     private Stream<Double> stream(double[] values) {
         return Arrays.stream(values).boxed(); 
+    }
+
+    private List<Double> toList(double[] x) {
+        return Arrays.stream(x)
+                     .boxed()
+                     .collect(Collectors.toList());
+    }
+
+    public void setupDerivedData() {
+        gsX = DoubleArrayList.newListWith(x);
+        gsY = DoubleArrayList.newListWith(y);
+        
+        boxedX = toList(x);
+        boxedY = toList(y);
     }
 
 }
