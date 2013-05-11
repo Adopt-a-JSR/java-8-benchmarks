@@ -8,7 +8,7 @@ package org.adoptajsr.benchmarks;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.function.IntFunction;
-import java.util.stream.Streams;
+import java.util.stream.DoubleStream;
 import org.adoptajsr.java8.benchmarks.Correlations;
 import org.junit.Assert;
 import org.junit.Test;
@@ -57,9 +57,9 @@ public class CorrelationTest {
     }
 
     private double[] sequence(int value, int size) {
-        return Streams.iterateDouble(value, x -> x)
-                      .limit(size)
-                      .toArray();
+        return DoubleStream.iterate(value, x -> x)
+                           .limit(size)
+                           .toArray();
     }
 
     private void assertEquals(double[] expected, double[] result) {

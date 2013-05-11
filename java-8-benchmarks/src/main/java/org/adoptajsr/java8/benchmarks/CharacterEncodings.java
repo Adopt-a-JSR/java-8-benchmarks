@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import java.util.stream.Streams;
 
 public class CharacterEncodings extends SimpleBenchmark {
@@ -26,9 +27,9 @@ public class CharacterEncodings extends SimpleBenchmark {
     @Override
     protected void setUp() throws Exception {
         charsets = new ArrayList<>(Charset.availableCharsets().values());
-        strings = Streams.generate(() -> UUID.randomUUID().toString())
-                         .limit(size)
-                         .collect(Collectors.toList());
+        strings = Stream.generate(() -> UUID.randomUUID().toString())
+                        .limit(size)
+                        .collect(Collectors.toList());
     }
 
     public List<ByteBuffer> timeImperativeEncodings(int reps) {

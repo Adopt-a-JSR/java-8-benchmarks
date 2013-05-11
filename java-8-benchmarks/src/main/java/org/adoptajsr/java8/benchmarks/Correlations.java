@@ -7,8 +7,9 @@ package org.adoptajsr.java8.benchmarks;
 
 import com.google.caliper.SimpleBenchmark;
 import java.util.Arrays;
+import java.util.stream.DoubleStream;
 import java.util.stream.Streams;
-import static java.util.stream.Streams.intRange;
+import static java.util.stream.IntStream.range;
 import static java.util.stream.Streams.zip;
 
 /**
@@ -22,9 +23,9 @@ public class Correlations extends SimpleBenchmark {
 
     @Override
     protected void setUp() throws Exception {
-        setValues(Streams.generateDouble(Math::random)
-                         .limit(10_000)
-                         .toArray());
+        setValues(DoubleStream.generate(Math::random)
+                              .limit(10_000)
+                              .toArray());
     }
 
     public void setValues(double[] values) {
@@ -55,7 +56,7 @@ public class Correlations extends SimpleBenchmark {
         double[] result = null;
         for (int i = 0; i < reps; i++) {
             int length = values.length;
-            result = intRange(0, length)
+            result = range(0, length)
                     .mapToDouble(window -> lambdaCorrelationAtIndex(values, length, window))
                     .toArray();
         }
