@@ -6,12 +6,15 @@ Project for analysing the performance impact of Java 8 changes: both language wi
 How to run
 ----------
 
-* Set JAVA\_HOME to point to java 8 build 86 or later.
+* Set JAVA\_HOME to point to java 8 build 88
+* Install GS-Collections from (https://github.com/goldmansachs/gs-collections)
+ * git clone https://github.com/goldmansachs/gs-collections.git
+ * mvn install
 * Go into the `java-8-benchmarks` directory
-* `mvn package`
-* `./run-benchmarks`
+* `mvn package
+* Run org.adoptajsr.RunBenchmarks
 
-Current Implementations 
+Current Implementations
 -----------------------
 
 * Dot Product of 10 million entity vector
