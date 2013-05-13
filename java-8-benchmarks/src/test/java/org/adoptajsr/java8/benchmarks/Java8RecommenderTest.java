@@ -22,6 +22,7 @@ import java.util.Map;
 import org.adoptajsr.java8.util.Purchases;
 import org.adoptajsr.java8.util.Purchases.Purchase;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class Java8RecommenderTest {
@@ -39,6 +40,7 @@ public class Java8RecommenderTest {
         Assert.assertTrue(recommendations.alsoBought(5, 1, results).contains(4));
     }
     
+    @Ignore
     @Test
     public void gsVariant() {
         Recommendations recommendations = setupRecommendations();
