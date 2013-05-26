@@ -16,25 +16,26 @@
 
 package org.adoptajsr.java8.benchmarks;
 
+import com.gs.collections.api.list.MutableList;
+import com.gs.collections.api.map.MutableMap;
 import com.gs.collections.api.multimap.list.ListMultimap;
 import java.util.List;
 import java.util.Map;
+
+import org.adoptajsr.java8.benchmarks.recommendations.GSLambdaRecommendations;
+import org.adoptajsr.java8.benchmarks.recommendations.LambdaRecommendations;
 import org.adoptajsr.java8.util.Purchases;
 import org.adoptajsr.java8.util.Purchases.Purchase;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class Java8RecommenderTest {
-    
-    public static void main(String[] args) {
-        new Java8RecommenderTest().lambdaVariant();
-    }
-   
+public class RecommendationsTest {
+
     @Test
     public void lambdaVariant() {
-        Recommendations recommendations = setupRecommendations();
-        Map<Integer, List<Integer>> results = recommendations.timeLambdaRecommendations(1);
+        LambdaRecommendations recommendations = new LambdaRecommendations(makePurchases());
+        Map<Integer, List<Integer>> results = recommendations.calculateRecommendations();
         
         Assert.assertTrue(recommendations.alsoBought(4, 1, results).contains(5));
         Assert.assertTrue(recommendations.alsoBought(5, 1, results).contains(4));
@@ -43,28 +44,26 @@ public class Java8RecommenderTest {
     @Ignore
     @Test
     public void gsVariant() {
-        Recommendations recommendations = setupRecommendations();
-        ListMultimap<Integer, Integer> results = recommendations.timeGSRecommendations(1);
+        GSLambdaRecommendations recommendations = new GSLambdaRecommendations(makePurchases());
+        MutableMap<Integer, MutableList<Integer>> results = recommendations.calculateRecommendations();
              
         Assert.assertEquals(4, results.get(5).get(0).intValue());
         Assert.assertEquals(5, results.get(4).get(0).intValue());
+    }
+
+    // products: 3 .. 10
+    // users: 1,2
+    private Purchases makePurchases() {
+        Purchases purchases = new Purchases();
+        buy(purchases, 4, 5, 2);
+        buy(purchases, 3, 10, 1);
+        return purchases;
     }
 
     private void buy(Purchases purchases, int firstProduct, int lastProduct, int user) {
         for (int i = firstProduct; i <= lastProduct; i++) {
             purchases.addPurchase(new Purchase(user, i));
         }
-    }
-
-    // products: 3 .. 10
-    // users: 1,2
-    private Recommendations setupRecommendations() {
-        Purchases purchases = new Purchases();
-        buy(purchases, 4, 5, 2);
-        buy(purchases, 3, 10, 1);
-        Recommendations recommendations = new Recommendations();
-        recommendations.setPurchases(purchases);
-        return recommendations;
     }
 
 }
