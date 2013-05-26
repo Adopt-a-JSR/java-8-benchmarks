@@ -5,3 +5,13 @@ target/
 *.jar
 *.war
 *.ear
+
+# Intellij
+*.iml
+.idea/
+
+# Eclipse
+.classpath
+.project
+.settings/
+

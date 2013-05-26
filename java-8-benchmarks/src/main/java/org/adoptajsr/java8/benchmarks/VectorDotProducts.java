@@ -18,6 +18,7 @@ package org.adoptajsr.java8.benchmarks;
 
 import com.google.caliper.Runner;
 import com.google.caliper.SimpleBenchmark;
+import com.gs.collections.api.tuple.Pair;
 import com.gs.collections.impl.list.mutable.primitive.DoubleArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -62,7 +63,7 @@ public class VectorDotProducts extends SimpleBenchmark {
         double sum = 0;
         for (int j= 0; j < reps; j++) {
             sum = 0;
-            for (int i = 0; i < SIZE; i++) {
+            for (int i = 0; i < x.length; i++) {
                 sum += x[i] * y[i];
             }
         }
@@ -85,7 +86,7 @@ public class VectorDotProducts extends SimpleBenchmark {
         for (int j= 0; j < reps; j++) {
             sum = gsX.asLazy().collect(Double::new)
                     .zip(gsY.asLazy().collect(Double::new))
-                    .sumOfDouble(pair -> pair.getOne() * pair.getTwo());
+                    .sumOfDouble((Pair<Double, Double> pair) -> pair.getOne() * pair.getTwo());
         }
         return sum;
     }
