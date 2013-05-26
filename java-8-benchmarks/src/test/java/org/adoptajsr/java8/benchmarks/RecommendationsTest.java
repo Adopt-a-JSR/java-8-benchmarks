@@ -23,12 +23,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.adoptajsr.java8.benchmarks.recommendations.GSLambdaRecommendations;
+import org.adoptajsr.java8.benchmarks.recommendations.ImperativeRecommendations;
 import org.adoptajsr.java8.benchmarks.recommendations.LambdaRecommendations;
 import org.adoptajsr.java8.util.Purchases;
 import org.adoptajsr.java8.util.Purchases.Purchase;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
 
 public class RecommendationsTest {
 
@@ -37,8 +40,19 @@ public class RecommendationsTest {
         LambdaRecommendations recommendations = new LambdaRecommendations(makePurchases());
         Map<Integer, List<Integer>> results = recommendations.calculateRecommendations();
         
-        Assert.assertTrue(recommendations.alsoBought(4, 1, results).contains(5));
-        Assert.assertTrue(recommendations.alsoBought(5, 1, results).contains(4));
+        assertTrue("product 5 is similar to 4", recommendations.alsoBought(4, 1, results).contains(5));
+        assertTrue("product 4 is similar to 5", recommendations.alsoBought(5, 1, results).contains(4));
+    }
+
+    @Test
+    public void imperativeVariant() {
+        ImperativeRecommendations recommendations = new ImperativeRecommendations(makePurchases());
+        Map<Integer, List<Integer>> results = recommendations.calculateRecommendations();
+
+        List<Integer> similarTo4 = recommendations.alsoBought(4, 1, results);
+        assertTrue("product 5 is similar to 4: " + similarTo4, similarTo4.contains(5));
+
+        assertTrue("product 4 is similar to 5", recommendations.alsoBought(5, 1, results).contains(4));
     }
     
     @Ignore

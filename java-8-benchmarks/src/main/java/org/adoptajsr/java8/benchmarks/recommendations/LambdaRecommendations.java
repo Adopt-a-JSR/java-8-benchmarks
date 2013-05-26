@@ -20,23 +20,28 @@ public class LambdaRecommendations {
     }
 
     public Map<Integer, List<Integer>> calculateRecommendations() {
-        Map<Integer, List<Integer>> buysByUser =
-                purchases.getPurchases()
-                        .stream()
-                        .collect(groupingBy(Purchases.Purchase::getUserId, productIds()));
-
-        // product id -> product id -> frequency purchased together
-        Map<Integer, Map<Integer, Long>> productSimilarity =
-                buysByUser.values()
-                        .stream()
-                        .flatMap(this::combinations)
-                        .collect(groupingBy(CoBuy::getProductId1,
-                                groupingBy(CoBuy::getProductId2, counting())));
+        Map<Integer, List<Integer>> buysByUser = buysByUser();
+        Map<Integer, Map<Integer, Long>> productSimilarity = calcProductSimilarity(buysByUser);
 
         // replace the tree maps by a sorted list of keys
         return productSimilarity.entrySet()
                                 .stream()
                                 .collect(toMap(Map.Entry::getKey, e -> keys(e.getValue())));
+    }
+
+    // product id -> product id -> frequency purchased together
+    private Map<Integer, Map<Integer, Long>> calcProductSimilarity(Map<Integer, List<Integer>> buysByUser) {
+        return buysByUser.values()
+                .stream()
+                .flatMap(this::combinations)
+                .collect(groupingBy(CoBuy::getProductId1,
+                        groupingBy(CoBuy::getProductId2, counting())));
+    }
+
+    private Map<Integer, List<Integer>> buysByUser() {
+        return purchases.getPurchases()
+                .stream()
+                .collect(groupingBy(Purchases.Purchase::getUserId, productIds()));
     }
 
     public Stream<CoBuy> combinations(List<Integer> values) {
@@ -49,7 +54,7 @@ public class LambdaRecommendations {
     private List<Integer> keys(Map<Integer, Long> map) {
         List<Integer> userIds = new ArrayList<>(map.keySet());
         // TODO: complain about type inference
-        ToLongFunction<? super Integer> lookup = id -> map.get(id);
+        ToLongFunction<? super Integer> lookup = map::get;
         userIds.sort(Comparators.comparing(lookup).reverseOrder());
         return userIds;
     }
